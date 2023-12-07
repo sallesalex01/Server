@@ -79,8 +79,25 @@ public class Main {
             }
 
         });
+        post("/api/imc", (request, response) -> {
+            String corpoRequest = request.body();
+            System.out.println("Corpo JSON: " + corpoRequest);
+            Imc imc = gson.fromJson(corpoRequest, Imc.class);
+            int massa = Integer.parseInt(imc.massa);
+            double altura = Double.parseDouble(imc.altura);
+            double IMC = massa / Math.pow(altura, 2);
+
+            // Formate o IMC com duas casas decimais
+            String formattedIMC = String.format("%.2f", IMC);
+
+            return formattedIMC;
+        });
     }
 
+    private static class Imc {
+        String massa;
+        String altura;
+    }
     private static class Pessoa {
         String nome;
         String email;
